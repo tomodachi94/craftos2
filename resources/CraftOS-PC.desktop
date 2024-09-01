@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=CraftOS-PC
+GenericName=Advanced ComputerCraft emulator
+Exec=craftos
+Icon=craftos
+StartupWMClass=craftos
+Terminal=false
+Type=Application
+Categories=Utility;Development;
+Keywords=craftos;computercraft;emulator;
