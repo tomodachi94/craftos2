@@ -196,6 +196,7 @@ install-bin: craftos $(filter fixup-liblua-path,$(MAKECMDGOALS))
 	echo " [CP]    craftos"
 	cp craftos "$(BINDIR)/craftos"
 
+
 # craftos2-lua does have a ``make install`` rule, but it installs a lot of
 # files that conflict with a standard Lua installation.
 install-liblua: craftos2-lua/src/liblua$(LIBEXT)
@@ -205,6 +206,18 @@ install-liblua: craftos2-lua/src/liblua$(LIBEXT)
 	cp craftos2-lua/src/liblua$(LIBEXT) $(LIBDIR)/$(LIBLUA_NAME)$(LIBEXT)
 
 install: $(INSTALL_TARGETS)
+
+# This is only useful on Ubuntu, so it is NOT installed by default.
+extra-install-apport:
+	echo " [MKDIR] $(SHAREDIR)/apport/package-hooks"
+	mkdir -p "$(SHAREDIR)/apport/package-hooks"
+	echo " [CP]    apport/apport_hook.py"
+	cp apport/apport_hook.py $(SHAREDIR)/apport/package-hooks/craftos-pc.py
+	cp apport/apport_hook.py $(SHAREDIR)/apport/package-hooks/source_craftos-pc.py
+	echo " [MKDIR] $(SYSCONFDIR)/apport/crashdb.conf.d"
+	mkdir -p "$(SHAREDIR)/apport/package-hooks/crashdb.conf.d"
+	echo " [CP]    apport/apport_crashdb.conf"
+	cp apport/apport_crashdb.conf $(SYSCONFDIR)/apport/crashdb.conf.d/craftos_pc-crashdb.conf
 
 uninstall:
 	echo " [RM]    $(BINDIR)/craftos"
@@ -224,5 +237,5 @@ uninstall:
 test: craftos
 	./craftos --headless --script $(shell pwd)/resources/CraftOSTest.lua -d "$(shell mktemp -d)"
 
-.PHONY: all macapp clean rebuild install install-bin install-headers install-liblua install-linux install-darwin uninstall test
+.PHONY: all macapp clean rebuild install install-bin install-headers install-liblua install-linux install-darwin extra-install-apport uninstall test
 .SILENT:
