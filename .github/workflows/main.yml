@@ -28,7 +28,9 @@ jobs:
     name: Build & test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
     - name: Download ROM
       run: sudo git clone https://github.com/MCJack123/craftos2-rom /usr/local/share/craftos
     - name: Install dependencies
@@ -37,7 +39,6 @@ jobs:
         sudo apt install -y libsdl2-dev libsdl2-mixer-dev libhpdf-dev libpng++-dev libwebp-dev libpoco-dev libncurses5-dev
     - name: Build Lua
       run: |
-        git submodule update --init --recursive
         make -C craftos2-lua linux -j$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
     - name: Build CraftOS-PC
       run: |
@@ -56,7 +57,9 @@ jobs:
     name: Build & test (no optional features)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
     - name: Download ROM
       run: sudo git clone https://github.com/MCJack123/craftos2-rom /usr/local/share/craftos
     - name: Install dependencies
@@ -65,7 +68,6 @@ jobs:
         sudo apt install -y libsdl2-dev libpoco-dev
     - name: Build Lua
       run: |
-        git submodule update --init --recursive
         make -C craftos2-lua linux -j$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
     - name: Build CraftOS-PC
       run: |
@@ -84,7 +86,9 @@ jobs:
     name: Build & test (standalone)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
     - name: Install dependencies
       run: |
         sudo apt update
@@ -97,7 +101,6 @@ jobs:
         cd ..
     - name: Build Lua
       run: |
-        git submodule update --init --recursive
         make -C craftos2-lua linux -j$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
     - name: Build CraftOS-PC
       run: |
@@ -116,7 +119,9 @@ jobs:
     name: Run CC:T tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
     - name: Download ROM & CC:T
       run: |
         sudo git clone https://github.com/MCJack123/craftos2-rom /usr/local/share/craftos
@@ -128,7 +133,6 @@ jobs:
         sudo apt install -y libsdl2-dev libsdl2-mixer-dev libhpdf-dev libpng++-dev libwebp-dev libpoco-dev libncurses5-dev
     - name: Build Lua
       run: |
-        git submodule update --init --recursive
         make -C craftos2-lua linux -j$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
     - name: Build CraftOS-PC
       run: |
@@ -147,7 +151,9 @@ jobs:
     name: Build Windows
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
     - name: Download ROM
       run: git clone https://github.com/MCJack123/craftos2-rom "C:\Program Files\CraftOS-PC"
     - name: Restore vcpkg cache
@@ -163,7 +169,6 @@ jobs:
           ${{ runner.os }}-vcpkg-binary-cache-
     - name: Prepare environment
       run: |
-        git submodule update --init --recursive
         mkdir x64\ReleaseC
         mkdir x64\Release
         & $Env:VCPKG_ROOT\vcpkg integrate install
@@ -233,7 +238,9 @@ jobs:
     name: Build Windows (ARM)
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
     - name: Download ROM
       run: git clone https://github.com/MCJack123/craftos2-rom "C:\Program Files\CraftOS-PC"
     - name: Restore vcpkg cache
@@ -249,7 +256,6 @@ jobs:
           ${{ runner.os }}-vcpkg-binary-cache-arm-
     - name: Prepare environment
       run: |
-        git submodule update --init --recursive
         mkdir ARM64\ReleaseC
         mkdir ARM64\Release
         & $Env:VCPKG_ROOT\vcpkg integrate install
